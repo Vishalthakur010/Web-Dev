@@ -1,0 +1,45 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.wrapper{
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    perspective: 50px;
+}
+.container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    transform-style: preserve-3d;
+    height: 100%;
+    z-index: -1;
+}
+/* .Background, .Foreground{
+    position: absolute;
+    height: 100%;
+    z-index: -1;
+} */
+.Background{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    object-fit: cover;
+    transform: translateZ(-80px) scale(4);
+}
+.Foreground{
+    position: absolute;
+    height: 30%;
+    align-self: flex-end;
+    z-index: -1;
+    object-fit: cover;
+    transform: translateZ(-20px) scale(2.3);
+}
+h1{
+    align-self: center;
+}
