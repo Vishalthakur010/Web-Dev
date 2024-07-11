@@ -1,4 +1,4 @@
-/* used Flexbox */
+/* used Grid  */
 
 *{
     margin: 0;
@@ -26,17 +26,23 @@
     font-size: 3rem;
 }
 .gallery{
-    display: flex;
+    /* display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-between; */
+    /* height: 100%; */
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
 }
 .card{
-    width: 32%;
+     /* width: 32%;  */
     position: relative;
     margin-bottom: 20px;
     border-radius: 10px;
     overflow: hidden;
-}
+    display: flex;
+    justify-content: center;
+} 
 .card img{
     width: 100%;
     height: 100%;
@@ -54,10 +60,10 @@
 }
 .card figcaption{
     position: absolute;
-    padding: 25px;
+    padding: 20px;
     bottom: 0;
-    left: 0;
-    width: 100%;
+    /* left: 0; */
+    /* width: fit-content; */
     height: 15%;
     font-size: 20px;
     font-weight: 500px;
@@ -69,5 +75,7 @@
 }
 .card:hover figcaption{
     opacity: 1;
-    transform: scale(1.03);
-}
+    bottom: 40%;
+    transform: scale(1.03) translateY(-50%) rotate(360deg);
+    transition: 1s;
+} 
