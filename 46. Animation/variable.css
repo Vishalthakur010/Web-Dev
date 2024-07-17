@@ -1,0 +1,22 @@
+:root{
+    --txtcolor:#c44636;
+}
+
+*{
+    --txtcolor:#982c1e;
+}
+
+.container{
+    border: 2px solid red;
+    background-color: green;
+    height: 500px;
+    width: 500px;
+
+    background-color: var(--txtcolor);
+}
+.box{
+    border: 2px solid black;
+    background-color: aqua;
+    /* --txtcolor:#982c1e; */
+    color: var(--txtcolor);
+}
