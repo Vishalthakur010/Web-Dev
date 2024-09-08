@@ -111,25 +111,95 @@ console.log('Js DOM Class-4')
 // console.log(trial());
 
 
-async function utility(){
 
-let delhimausam= new Promise((resolve,reject)=>{
-    setTimeout(()=>{
-        resolve("Delhi me to bohot garmi hai");
-    },5000)
-});
+//Async Await
+// async function utility(){
 
-let manalimausam= new Promise((resolve,reject)=>{
-    setTimeout(()=>{
-        resolve("Manali me baarish ho rahi hai");
-    },7000)
-});
+// let delhimausam= new Promise((resolve,reject)=>{
+//     setTimeout(()=>{
+//         resolve("Delhi me to bohot garmi hai");
+//     },5000)
+// });
+
+// let manalimausam= new Promise((resolve,reject)=>{
+//     setTimeout(()=>{
+//         resolve("Manali me baarish ho rahi hai");
+//     },7000)
+// });
 
 
-let dm=await delhimausam;
-let mm=await manalimausam;
+// let dm=await delhimausam;
+// let mm=await manalimausam;
 
-return[dm,mm];
-}
+// return[dm,mm];
+// }
 
-console.log(utility());
+// console.log(utility());
+
+
+
+
+
+//Fetch API
+
+// get
+// async function utility(){
+//     let content= await fetch('https://jsonplaceholder.typicode.com/posts/1');
+//     let output= await content.json()
+
+//     console.log(output);
+// }
+// utility();
+
+
+// post method
+// async function helper(){
+
+// let options={
+//     method: 'POST',
+//     body: JSON.stringify({
+//       title: 'vishal',
+//       body: 'Solid body',
+//       userId: 2004,
+//       weight: 62,
+//     }),
+//     headers: {
+//       'Content-type': 'application/json; charset=UTF-8',
+//     },
+//   }
+//   let content=await fetch('https://jsonplaceholder.typicode.com/posts',options)
+//   let responce=content.json();
+//   return responce;
+// }
+
+// async function utility(){
+//     let ans=await helper();
+//     console.log(ans);
+// }
+// utility();
+
+
+
+
+// closures
+// function init() {
+//     var name = "Mozilla"; // name is a local variable created by init
+//     function displayName() {
+//       // displayName() is the inner function, that forms a closure
+//       console.log(name); // use variable declared in the parent function
+//     }
+//     displayName();
+//   }
+//   init();
+
+
+function makeFunc() {
+    const name = "Mozilla";
+    function displayName() {
+      console.log(name);
+    }
+    return displayName;
+  }
+  
+  const myFunc = makeFunc();
+  myFunc();
