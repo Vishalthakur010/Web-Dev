@@ -19,12 +19,17 @@ let passwordLength= 10;
 let chekCount=0;
 handleSlider();
 // set strength circle to grey
+setIndicator("#ccc")
 
 
 // Function to handle the slider and display password length
 function handleSlider(){
     inputslider.value=passwordLength;
     lengthdisplay.innerHTML=passwordLength;
+
+    const min = inputslider.min;
+    const max = inputslider.max;
+    inputslider.style.backgroundSize=((passwordLength-min)*100/(max-min)) + "% 100%";
 }
 
 // Function to set the strength indicator color
@@ -98,7 +103,9 @@ async function copyContent(){
 // Shuffle the array randomly - Fisher Yates Method
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
+        // random j find out using random function
         const j = Math.floor(Math.random() * (i + 1));
+        //swap number at i index and j index
         const temp = array[i];
         array[i] = array[j];
         array[j] = temp;
