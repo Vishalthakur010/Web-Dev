@@ -63,6 +63,7 @@ async function fetchuserWeatherInfo(coordinates){
     const {lat,lon}=coordinates
     // make grantaccess container invisible
     grantAccesscontainer.classList.remove("active")
+    errorScreen.classList.remove("active")
     // make loading screen visible
     loadingScreen.classList.add("active")
 
@@ -139,6 +140,7 @@ searchForm.addEventListener("submit", (e)=>{
         return
     else{
         fetchSearchWeatherInfo(cityName)
+        searchInput.value=""
     }
 })
 
