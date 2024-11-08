@@ -1,0 +1,21 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.spinner {
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:conic-gradient(#0000 10%,#766DF4);
+    -webkit-mask:radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+    animation:s3 1s infinite linear;
+  }
+  @keyframes s3 {to{transform: rotate(1turn)}}
+
+  .card{
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  }
+  .card:hover{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
