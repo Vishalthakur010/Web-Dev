@@ -13,12 +13,12 @@ exports.resetPasswordToken = async (req, res) => {
         if (!email) {
             return res.status(401).json({
                 success: false,
-                message: "Your email is not registered with us"
+                message: `This Email: ${email} is not Registered With Us Enter a Valid Email `,
             })
         }
 
         //generate token
-        const token = crypto.randomUUID()
+        const token = crypto.randomBytes(20).toString("hex");
 
         //update user by adding token and expiration time
         const updatedDetails = await User.findOneAndUpdate({ email },
@@ -34,13 +34,13 @@ exports.resetPasswordToken = async (req, res) => {
         //send email containing the url
         mailSender(email,
             "Password Reset Link",
-            `Password Reset Link : ${url}`)
+            `Your Link for email verification is ${url}. Please click this url to reset your password.`)
 
 
         // return response
         return res.status(200).json({
             success:true,
-            message:"Email sent successfully, please check email and try again"
+            message:"Email Sent Successfully, Please Check Your Email to Continue Further",
         })
     }
     catch (error) {
@@ -78,7 +78,7 @@ exports.resetPassword = async (req,res) => {
         }
 
         //check token time
-        if(user.resetPasswordExpires < Date.now()){
+        if(user.resetPasswordExpires > Date.now()){
             return res.status(401).json({
                 success:false,
                 message:"token is expired, please regenerate your token"

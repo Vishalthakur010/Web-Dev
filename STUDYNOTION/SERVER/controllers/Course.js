@@ -134,3 +134,55 @@ exports.showAllCourses= async (req,res) => {
         })
     }
 }
+
+//get course handler function
+exports.getCourseDetail=async(req,res)=>{
+    try{
+        //get id
+        const {courseId}=req.body
+
+        //find course details
+        const courseDetails= await Course.find({_id:courseId})
+                                            .populate(
+                                                {
+                                                    path:"instructor",
+                                                    populate:[
+                                                        {path:"additionalDetails"},
+                                                        {path:"courses"}
+                                                    ]
+                                                }
+                                            )
+                                            .populate("category")
+                                            .populate("ratingAndReview")
+                                            .populate({
+                                                path:"courseContent",
+                                                populate:{
+                                                    path:"subsection"
+                                                }
+                                            })
+                                            .exec()
+
+        //validation
+        if(!courseDetails){
+            return res.status(400).json({
+                success:false,
+                message:`could not find the course with ${courseId}`
+            })
+        }
+
+        //return  response
+        return res.status(200).json({
+            success:true,
+            message:"course details fetched successfully",
+            dada:courseDetails
+        })
+    }
+    catch (error) {
+        console.log("error in getCourseDetail controller: ", error)
+        res.status(500).json({
+            success: false,
+            error:error.message,
+            message: "Failed to get course detail"
+        })
+    }
+}

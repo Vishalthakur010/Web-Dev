@@ -54,7 +54,8 @@ exports.sendOTP = async (req, res) => {
         //return response successfully
         res.status(200).json({
             success: true,
-            message: "OTP sent successfully"
+            message: "OTP sent successfully",
+            otp
         })
 
     }
@@ -62,6 +63,7 @@ exports.sendOTP = async (req, res) => {
         console.log("error in sendOTP controller: ", error)
         res.status(500).json({
             success: false,
+            error: error.message,
             message: "OTP can not be sent"
         })
     }
@@ -101,7 +103,7 @@ exports.signUp = async (req, res) => {
         }
 
         //check user already exist or not
-        const existingUser = User.findOne({ email })
+        const existingUser = await User.findOne({ email })
         if (existingUser) {
             return res.status(400).json({
                 success: false,
@@ -119,7 +121,7 @@ exports.signUp = async (req, res) => {
                 success: false,
                 message: "otp not found"
             })
-        } else if (otp != recentOtp) {
+        } else if (otp != response[0].otp) {
             //invalid otp
             return res.status(400).json({
                 success: false,
@@ -130,9 +132,13 @@ exports.signUp = async (req, res) => {
         //hash password
         const hashedPassword = await bcrypt.hash(password, 10)
 
+         // Create the user
+    let approved = ""
+    approved === "Instructor" ? (approved = false) : (approved = true)
+
         const profileDetail = await Profile.create({
             gender: null,
-            dob: null,
+            dateOfBirth: null,
             about: null,
             contactNo: null
         })
@@ -143,6 +149,7 @@ exports.signUp = async (req, res) => {
             email,
             password: hashedPassword,
             accountType,
+            approved:approved,
             contactNumber,
             additionalDetails: profileDetail._id,
             image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}` // api for creting according to their name
@@ -175,7 +182,7 @@ exports.login = async (req, res) => {
         //validate data
         if (!email || !password) {
             return res.status(401).json({
-                success: true,
+                success: false,
                 message: "All fields are required"
             })
         }
@@ -242,11 +249,15 @@ exports.login = async (req, res) => {
 
 exports.changePassword = async (req, res) => {
     try{
-        //fetch data from req.body
-        const {oldPassword, newPassword, confirmPassword}= req.body
+        // Get old password, new password, and confirm new password from req.body
+        const {oldPassword, newPassword}= req.body
+
+        // Get user data from req.user
+        const id= req.user.id
+        const userDetails= await User.findById(id)
 
         //validate
-        if(!oldPassword, newPassword, confirmPassword){
+        if(!oldPassword || !newPassword){
             return res.status(401).josn({
                 success:false,
                 message:"All fields are required"
@@ -254,29 +265,48 @@ exports.changePassword = async (req, res) => {
         }
 
         //match password
-        if(newPassword != confirmPassword){
+        const isPasswordMatch = await bcrypt.compare(oldPassword,userDetails.password)
+        if(!isPasswordMatch){
             return res.status(401).json({
                 success:false,
                 message:"password does not match"
             })
         }
 
-        const email = await User.findone({password:oldPassword})
-
         //hash password
-        const hashedPassword = bcrypt.hash(newPassword,10)
+        const hashedPassword = await bcrypt.hash(newPassword,10)
 
         //update password in db
-        const user = await User.create({
-            password:hashedPassword
-        })
+        const updatedUserDetails = await User.findByIdAndUpdate(
+            userDetails.id,
+            {password:hashedPassword},
+            {new:true}
+        )
 
-        //send email
-        const mailResponse = mailSender(email,"password changed", "Your password has changed")
+        //send notification email
+        try{
+            const mailResponse = mailSender(
+                updatedUserDetails.email,
+                "Password for your account has been updated", "Your password has changed",
+                passwordUpdated(
+                    updatedUserDetails.email,
+                    `Password updated successfully for ${updatedUserDetails.firstName} ${updatedUserDetails.lastName}`
+                  )
+            )
+            console.log("Email sent successfully:", mailResponse.response)
+        }
+        catch (error) {
+            console.error("Error occurred while sending email:", error)
+            return res.status(500).json({
+              success: false,
+              message: "Error occurred while sending email",
+              error: error.message,
+            })
+          }
 
-        return res.status(401).json({
+        return res.status(200).json({
             success:true,
-            message:"password changed"
+            message:"password updated successfully"
         })
     }
     catch (error) {
