@@ -7,7 +7,14 @@ const { uploadImageToCloudinary } = require('../utils/imageUploader')
 exports.createCourse = async (req, res) => {
     try {
         //fetch data
-        const { courseName, coursedescription, whatYouWillLearn, price, tags, category } = req.body
+        let { 
+            courseName, 
+            coursedescription, 
+            whatYouWillLearn, 
+            price, 
+            tags, 
+            status,
+            category } = req.body
 
         //get thumbnail
         const thumbnail = req.files.thumbnailImage
@@ -20,8 +27,11 @@ exports.createCourse = async (req, res) => {
             })
         }
 
+        if (!status || status === undefined) {
+            status = "Draft"
+          }
         //check for instructor and get the ID
-        const userId = req.User.id
+        const userId = req.user.id
         const instructorDetail = await User.findById(userId)
         console.log("instructor Detail : ", instructorDetail)
 
@@ -53,7 +63,8 @@ exports.createCourse = async (req, res) => {
                 whatYouWillLearn: whatYouWillLearn,
                 price,
                 thumbnail: thumbnailImage.secure_url,
-                tags:tags,
+                tags,
+                status,
                 category:categoryDetails._id
             }
         )
@@ -142,7 +153,7 @@ exports.getCourseDetail=async(req,res)=>{
         const {courseId}=req.body
 
         //find course details
-        const courseDetails= await Course.find({_id:courseId})
+        const courseDetails= await Course.findOne({_id:courseId})
                                             .populate(
                                                 {
                                                     path:"instructor",
@@ -174,7 +185,7 @@ exports.getCourseDetail=async(req,res)=>{
         return res.status(200).json({
             success:true,
             message:"course details fetched successfully",
-            dada:courseDetails
+            data:courseDetails
         })
     }
     catch (error) {

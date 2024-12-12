@@ -31,7 +31,7 @@ exports.sendOTP = async (req, res) => {
             lowerCaseAlphabets: false,
             specialChars: false
         })
-        console.log(otp)
+        // console.log("otp: ", otp)
 
         //check otp is unique
         const result = await OTP.findOne({ otp: otp })
@@ -49,7 +49,7 @@ exports.sendOTP = async (req, res) => {
 
         //create an entry for OTP
         const otpBody = await OTP.create(otpPayload)
-        console.log(otpBody)
+        // console.log("otp payload: ", otpBody)
 
         //return response successfully
         res.status(200).json({
@@ -121,7 +121,7 @@ exports.signUp = async (req, res) => {
                 success: false,
                 message: "otp not found"
             })
-        } else if (otp != response[0].otp) {
+        } else if (otp != recentOtp[0].otp) {
             //invalid otp
             return res.status(400).json({
                 success: false,
@@ -132,9 +132,11 @@ exports.signUp = async (req, res) => {
         //hash password
         const hashedPassword = await bcrypt.hash(password, 10)
 
-         // Create the user
-    let approved = ""
-    approved === "Instructor" ? (approved = false) : (approved = true)
+        // Create the user
+        let approved = ""
+        approved === "Instructor" ? (approved = false) : (approved = true)
+        // let approved = accountType === "Instructor" ? false : true;
+
 
         const profileDetail = await Profile.create({
             gender: null,
@@ -149,7 +151,7 @@ exports.signUp = async (req, res) => {
             email,
             password: hashedPassword,
             accountType,
-            approved:approved,
+            approved: approved,
             contactNumber,
             additionalDetails: profileDetail._id,
             image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}` // api for creting according to their name
@@ -177,7 +179,7 @@ exports.signUp = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         //fetch data from req body
-        const { email, password} = req.body
+        const { email, password } = req.body
 
         //validate data
         if (!email || !password) {
@@ -192,7 +194,7 @@ exports.login = async (req, res) => {
         if (!user) {
             return res.status(400).json({
                 success: false,
-                message: "user is not registered"
+                message: "user is not registered, please sign in to continue"
             })
         }
 
@@ -210,7 +212,7 @@ exports.login = async (req, res) => {
                     expiresIn: "2h"
                 }
             )
-            user = user.toObject
+            // user = user.toObject
             user.token = token
             user.password = undefined
 
@@ -219,7 +221,7 @@ exports.login = async (req, res) => {
                 expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
                 httpOnly: true
             }
-            res.cookie("token", payload, options).status(200).json({
+            res.cookie("token", token, options).status(200).json({
                 success: true,
                 token,
                 user,
@@ -248,65 +250,65 @@ exports.login = async (req, res) => {
 //change password
 
 exports.changePassword = async (req, res) => {
-    try{
+    try {
         // Get old password, new password, and confirm new password from req.body
-        const {oldPassword, newPassword}= req.body
+        const { oldPassword, newPassword } = req.body
 
         // Get user data from req.user
-        const id= req.user.id
-        const userDetails= await User.findById(id)
+        const id = req.user.id
+        const userDetails = await User.findById(id)
 
         //validate
-        if(!oldPassword || !newPassword){
+        if (!oldPassword || !newPassword) {
             return res.status(401).josn({
-                success:false,
-                message:"All fields are required"
+                success: false,
+                message: "All fields are required"
             })
         }
 
         //match password
-        const isPasswordMatch = await bcrypt.compare(oldPassword,userDetails.password)
-        if(!isPasswordMatch){
+        const isPasswordMatch = await bcrypt.compare(oldPassword, userDetails.password)
+        if (!isPasswordMatch) {
             return res.status(401).json({
-                success:false,
-                message:"password does not match"
+                success: false,
+                message: "password does not match"
             })
         }
 
         //hash password
-        const hashedPassword = await bcrypt.hash(newPassword,10)
+        const hashedPassword = await bcrypt.hash(newPassword, 10)
 
         //update password in db
         const updatedUserDetails = await User.findByIdAndUpdate(
             userDetails.id,
-            {password:hashedPassword},
-            {new:true}
+            { password: hashedPassword },
+            { new: true }
         )
 
         //send notification email
-        try{
+        try {
             const mailResponse = mailSender(
                 updatedUserDetails.email,
                 "Password for your account has been updated", "Your password has changed",
                 passwordUpdated(
                     updatedUserDetails.email,
                     `Password updated successfully for ${updatedUserDetails.firstName} ${updatedUserDetails.lastName}`
-                  )
+                )
             )
             console.log("Email sent successfully:", mailResponse.response)
         }
         catch (error) {
             console.error("Error occurred while sending email:", error)
             return res.status(500).json({
-              success: false,
-              message: "Error occurred while sending email",
-              error: error.message,
+                success: false,
+                message: "Error occurred while sending email",
+                error: error.message,
             })
-          }
+        }
 
         return res.status(200).json({
-            success:true,
-            message:"password updated successfully"
+            success: true,
+            message: "password updated successfully"
         })
     }
     catch (error) {

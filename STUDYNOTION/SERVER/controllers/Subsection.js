@@ -12,7 +12,7 @@ exports.createSubsection = async (req, res) => {
         const video = req.files.videoFile
 
         //validate
-        if (!sectionId || !title || !description || !video) {
+        if (!sectionId || !title || !description || !videoFile) {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required"
@@ -96,7 +96,7 @@ exports.updateSubsection = async (req, res) => {
 
         // find updated section and return it
         const updatedSection = await Section.findById(sectionId).populate(
-            "subSection"
+            "subsection"
         )
 
         console.log("updated section", updatedSection)
@@ -122,14 +122,27 @@ exports.updateSubsection = async (req, res) => {
 exports.deleteSubsection = async (req, res) => {
     try {
         const { subSectionId, sectionId } = req.body
+
+
+        // Validate input
+        if (!subSectionId || !sectionId) {
+            return res.status(400).json({
+                success: false,
+                message: "Both subSectionId and sectionId are required",
+            });
+        }
+
+        //delete subsection from section
     await Section.findByIdAndUpdate(
       { _id: sectionId },
       {
         $pull: {
-          subSection: subSectionId,
+            subsection: subSectionId,
         },
       }
     )
+
+    //delete subsection
     const subSection = await SubSection.findByIdAndDelete({ _id: subSectionId })
 
     if (!subSection) {
@@ -138,9 +151,10 @@ exports.deleteSubsection = async (req, res) => {
         .json({ success: false, message: "SubSection not found" })
     }
 
+
     // find updated section and return it
     const updatedSection = await Section.findById(sectionId).populate(
-      "subSection"
+      "subsection"
     )
 
         //return response
