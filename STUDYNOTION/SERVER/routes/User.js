@@ -23,7 +23,7 @@ const{
     resetPassword
 }=require('../controllers/ResetPassword')
 
-router.post('/signUp',signUp) //checked
+router.post('/signup',signUp) //checked
 router.post('/login',login) //checked
 router.post('/sendOTP',sendOTP) //checked
 router.post('/changePassword',auth,changePassword)
