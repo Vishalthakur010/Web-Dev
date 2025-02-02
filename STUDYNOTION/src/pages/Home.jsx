@@ -5,18 +5,18 @@ import { HighlightText } from '../components/core/HomePage/HighlightText';
 import CTAButton from '../components/core/HomePage/Button'
 import banner from '../assets/Images/banner.mp4'
 import CodeBlocks from '../components/core/HomePage/codeBlocks';
-import Logo from '../assets/Logo/Logo-Full-Light.png'
-import { CiFacebook } from "react-icons/ci";
-import { ImGoogle3 } from "react-icons/im";
-import { CiTwitter } from "react-icons/ci";
-import { CiYoutube } from "react-icons/ci";
+import LearningLanguageSection from "../components/core/HomePage/LearningLanguageSection"
+import TimelineSection from "../components/core/HomePage/TimelineSection"
+import InstructorSection from '../components/core/HomePage/InstructorSection';
+import { Footer } from '../components/common/Footer';
+import ExploreMore from '../components/core/HomePage/ExploreMore';
 
 
 const Home = () => {
         return (
                 <div>
                         {/* section : 1 */}
-                        <div className='relative mx-auto flex flex-col w-[75%] max-w-maxContent items-center justify-between text-white'>
+                        <div className='relative mx-auto flex flex-col w-11/12 max-w-maxContent items-center justify-between text-white'>
 
                                 {/* Become an Instructor */}
                                 <Link to={"/signup"}>
@@ -63,9 +63,9 @@ const Home = () => {
                                 </div>
 
                                 {/* Code Section 1 */}
-                                <div >
+                                <div className='mx-auto'>
                                         <CodeBlocks
-                                                position={"lg:flex-row"}
+                                                position={"flex-col lg:flex-row"}
                                                 heading={
                                                         <div className='text-4xl font-semibold'>
                                                                 Unlock your
@@ -97,7 +97,7 @@ const Home = () => {
                                 {/* Code Section 2 */}
                                 <div >
                                         <CodeBlocks
-                                                position={"lg:flex-row-reverse"}
+                                                position={"flex-col lg:flex-row-reverse"}
                                                 heading={
                                                         <div className='text-4xl font-semibold w-[45%]'>
                                                                 Start
@@ -125,311 +125,69 @@ const Home = () => {
                                         />
                                 </div>
 
+                                <ExploreMore/>
+
                         </div>
 
                         {/* section : 2 */}
+                        <div className='bg-pure-greys-5 text-richblack-700'>
+
+                                {/* Background Image */}
+                                <div className='relative z-0 homepage_bg h-[300px] w-11/12 max-w-maxContent mx-auto flex justify-center items-center'>
+                                        {/* CTA Buttons  */}
+                                        <div className='h-max flex flex-row gap-5 text-white'>
+                                                <CTAButton active={true} linkto={"/signup"}>
+                                                        <div className='flex gap-2 items-center'>
+                                                                Explore Full Catalog
+                                                                <FaArrowRight />
+                                                        </div>
+                                                </CTAButton>
+                                                <CTAButton active={false} linkto={"/login"}>
+                                                        Learn More
+                                                </CTAButton>
+                                        </div>
+                                </div>
+
+                                <div className='w-11/12  max-w-maxContent mx-auto flex flex-col items-center justify-between gap-7'>
+
+                                        <div className=' flex lg:flex-row flex-col gap-10 lg:justify-around mt-[100px] mb-[50px]'>
+
+                                                <div className=' mx-auto text-4xl font-bold md:w-[45%]'>
+                                                        Get the Skills You need for a
+                                                        <HighlightText text={"job that is in demand"} />
+                                                </div>
+
+                                                <div className='mx-auto flex flex-col gap-10 md:w-[45%] items-start'>
+                                                        <div className='text-[16px] font-semibold'>
+                                                                The modern StudyNotion is That dictates it's own terms. Today, to be a competitive specialist requires more than professional Skills
+                                                        </div>
+                                                                <CTAButton active={true} linkto={"/signup"}>
+                                                                        Learn More
+                                                                </CTAButton>
+                                                </div>
+                                        </div>
+
+                                        <TimelineSection/>
+
+                                        <LearningLanguageSection/>
+                                </div>
+                        </div>
+
                         {/* section : 3 */}
+                        <div className='bg-richblack-900 text-white w-11/12 flex flex-col items-center justify-between mx-auto mt-20'>
+
+                                        <InstructorSection/>
+
+                                        <h2 className='text-center text-4xl font-semibold'>
+                                                Reviews from other learners
+                                        </h2>
+
+                                        {/* Reviews and rating 1:18*/}
+                        </div>
 
 
                         {/* Footer */}
-                        <footer className='w-full relative bg-richblack-800'>
-                                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 w-[90%] mx-auto mt-10 pt-10 pb-10 border-b-[1px] border-richblack-600'>
-
-                                        {/* left part */}
-                                        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-r-[1px] border-richblack-600'>
-
-                                                {/* column 1 */}
-                                                <div>
-                                                        {/* first */}
-                                                        <img src={Logo} className='w-[80%] text-richblack-400 pb-3 opacity-80' />
-
-                                                        {/* second */}
-                                                        <div>
-                                                                <p className='text-richblack-100 font-semibold text-[18px] pb-2'>
-                                                                        Company
-                                                                </p>
-                                                                <ul className='flex flex-col gap-2'>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                About
-                                                                        </li>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                Carrers
-                                                                        </li>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                Affiliates
-                                                                        </li>
-                                                                </ul>
-                                                        </div>
-
-                                                        {/* third */}
-                                                        <div className='flex gap-3 mt-4'>
-                                                                <CiFacebook className='bg-richblack-300 rounded-full text-[20px]' />
-                                                                <ImGoogle3 className='bg-richblack-300 rounded-full text-[20px]' />
-                                                                <CiTwitter className='text-richblack-50 text-[20px]' />
-                                                                <CiYoutube className='text-richblack-50 text-[20px]' />
-                                                        </div>
-                                                </div>
-
-                                                {/* column 2 */}
-                                                <div className='flex flex-col gap-5'>
-                                                        {/* first */}
-                                                        <div>
-                                                                <p className='text-richblack-100 font-semibold text-[18px] pb-2'>
-                                                                        Resources
-                                                                </p>
-                                                                <ul className='flex flex-col gap-1'>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                Articles
-                                                                        </li>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                Blog
-                                                                        </li>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                Chart Sheet
-                                                                        </li>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                Code Challenges
-                                                                        </li>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                Docs
-                                                                        </li>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                Projects
-                                                                        </li>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                Videos
-                                                                        </li>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                Workspaces
-                                                                        </li>
-                                                                </ul>
-                                                        </div>
-                                                        {/* second */}
-                                                        <div>
-                                                                <p className='text-richblack-100 font-semibold text-[18px] pb-2'>
-                                                                        Support
-                                                                </p>
-                                                                <ul className='flex flex-col gap-1'>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                Help Center
-                                                                        </li>
-                                                                </ul>
-                                                        </div>
-                                                </div>
-
-                                                {/* column 3 */}
-                                                <div className='flex flex-col gap-5'>
-                                                        {/* first */}
-                                                        <div>
-                                                                <p className='text-richblack-100 font-semibold text-[18px] pb-2'>
-                                                                        Plans
-                                                                </p>
-                                                                <ul className='flex flex-col gap-1'>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                Paid memberships
-                                                                        </li>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                For Students
-                                                                        </li>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                Buisness Solutions
-                                                                        </li>
-                                                                </ul>
-                                                        </div>
-
-                                                        {/* second */}
-                                                        <div>
-                                                                <p className='text-richblack-100 font-semibold text-[18px] pb-2'>
-                                                                        Community
-                                                                </p>
-                                                                <ul className='flex flex-col gap-1'>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                Forums
-                                                                        </li>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                Chapters
-                                                                        </li>
-                                                                        <li className='text-richblack-400 text-[14px]'>
-                                                                                Events
-                                                                        </li>
-                                                                </ul>
-                                                        </div>
-                                                </div>
-                                        </div>
-
-                                        {/* right part */}
-                                        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pl-6'>
-                                                {/* column 1 */}
-                                                <div>
-                                                        <p className='text-richblack-100 font-semibold text-[18px] pb-2'>
-                                                                Subjects
-                                                        </p>
-                                                        <ul className='flex flex-col gap-1'>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        AI
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Cloud Computing
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Code Foundations
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Computer Science
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Cybersecurity
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Data Analytics
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Data Science
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[12px]'>
-                                                                        Data Visualization
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Developer Tools
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        DevOps
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[12px]'>
-                                                                        GameDevelopment
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        IT
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Machine Learning
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Math
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Mobile Development
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Web Design
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Web Developmnet
-                                                                </li>
-                                                        </ul>
-                                                </div>
-
-                                                {/* column 2 */}
-                                                <div>
-                                                        <p className='text-richblack-100 font-semibold text-[18px] pb-2'>
-                                                                Languages
-                                                        </p>
-                                                        <ul className='flex flex-col gap-1'>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Bash
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        C
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        C++
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        C#
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Go
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        HTML & CSS
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Java
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        JavaScript
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Kotlin
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        PHP
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Python
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        R
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Ruby
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        SQL
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Swift
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Web Design
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Web Developmnet
-                                                                </li>
-                                                        </ul>
-                                                </div>
-                                                {/* column 3 */}
-                                                <div>
-                                                        <p className='text-richblack-100 font-semibold text-[18px] pb-2'>
-                                                                Carrer building
-                                                        </p>
-                                                        <ul className='flex flex-col gap-1'>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Carrer Paths
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Carrer services
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Interview prep
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Professional certification
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        --
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Full Catelog
-                                                                </li>
-                                                                <li className='text-richblack-400 text-[14px]'>
-                                                                        Beta Content
-                                                                </li>
-                                                        </ul>
-                                                </div>
-
-                                        </div>
-                                </div>
-
-                                <div className='flex flex-row w-[90%] mx-auto mt-8 pb-12 justify-between'>
-                                        <div className='flex flex-row items-center gap-6'>
-                                                <p className='text-richblack-300 text-[16px]'>
-                                                        Privacy policy
-                                                </p>
-                                                <p className='text-richblack-300 text-[16px]'>
-                                                        cookie policy
-                                                </p>
-                                                <p className='text-richblack-300 text-[16px]'>
-                                                        Terms
-                                                </p>
-                                        </div>
-                                        <div>
-                                                <p className='text-richblack-300 text-[16px]'>
-                                                        Made With VishalTech  ©2025 StudyNotion
-                                                </p>
-                                        </div>
-                                </div>
-                        </footer>
+                        <Footer/>
                 </div>
         )
 }
